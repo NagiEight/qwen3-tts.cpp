@@ -1,4 +1,4 @@
-name: C/C++ CI
+name: C/C++ CI (Windows MSVC)
 
 on:
   push:
@@ -8,16 +8,33 @@ on:
 
 jobs:
   build:
-
     runs-on: windows-2022
 
     steps:
     - uses: actions/checkout@v4
-    - name: configure
-      run: ./configure
-    - name: make
-      run: make
-    - name: make check
-      run: make check
-    - name: make distcheck
-      run: make distcheck
+      with:
+        submodules: recursive
+
+    - name: Configure GGML
+      run: |
+        cmake -S ggml -B ggml/build `
+          -DGGML_BUILD_TESTS=OFF `
+          -DGGML_BUILD_EXAMPLES=OFF `
+          -DBUILD_SHARED_LIBS=OFF
+
+    - name: Build GGML
+      run: |
+        cmake --build ggml/build --config Release --target ggml ggml-base ggml-cpu -j4
+
+    - name: Configure Project
+      run: cmake -S . -B build -DQWEN3_TTS_TIMING=ON
+
+    - name: Build Project
+      run: cmake --build build --config Release -j4
+
+    - name: Run Tests
+      run: |
+        # Note: These will fail if model files are missing, 
+        # but verifies the executables were built correctly.
+        .\build\Release\test_tokenizer.exe --help
+        .\build\Release\qwen3-tts-cli.exe --help
