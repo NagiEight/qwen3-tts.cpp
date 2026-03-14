@@ -33,7 +33,10 @@ GGML must be built before the main project. On Windows there is no Metal, so omi
 
 ```powershell
 # Configure
-cmake -S ggml -B ggml/build -DGGML_BUILD_TESTS=OFF -DGGML_BUILD_EXAMPLES=OFF -DBUILD_SHARED_LIBS=OFF
+cmake -S ggml -B ggml/build `
+      -DGGML_BUILD_TESTS=OFF `
+      -DGGML_BUILD_EXAMPLES=OFF `
+      -DBUILD_SHARED_LIBS=OFF
 
 # Build (Release config)
 cmake --build ggml/build --config Release --target ggml ggml-base ggml-cpu -j4

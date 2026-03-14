@@ -5,6 +5,9 @@ build/
 *.so
 *.dylib
 
+#xmake
+.xmake/
+
 # Models (too large for git)
 models/*.gguf
 models/Qwen3-TTS-*/

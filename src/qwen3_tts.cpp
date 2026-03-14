@@ -11,7 +11,7 @@
 
 #ifdef __APPLE__
 #include <mach/mach.h>
-#else
+#elif !defined(_WIN32)
 #include <sys/resource.h>
 #endif
 
@@ -46,6 +46,10 @@ static bool get_process_memory_snapshot(process_memory_snapshot & out) {
         out.phys_footprint_bytes = out.rss_bytes;
     }
     return true;
+#elif defined(_WIN32)
+    // Memory reporting not implemented on Windows; callers treat this as unavailable.
+    (void)out;
+    return false;
 #else
     struct rusage usage = {};
     if (getrusage(RUSAGE_SELF, &usage) != 0) {
