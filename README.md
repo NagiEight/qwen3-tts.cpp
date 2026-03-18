@@ -135,13 +135,13 @@ huggingface-cli download Qwen/Qwen3-TTS-12Hz-0.6B-Base `
 
 # Convert TTS model (transformer + encoder + tokenizer)
 python scripts/convert_tts_to_gguf.py `
-    models/Qwen3-TTS-12Hz-0.6B-Base `
-    models/qwen3-tts-0.6b-f16.gguf
+    -i models/Qwen3-TTS-12Hz-0.6B-Base `
+    -o models/qwen3-tts-0.6b-f16.gguf
 
 # Convert vocoder (audio decoder)
 python scripts/convert_tokenizer_to_gguf.py `
-    models/Qwen3-TTS-12Hz-0.6B-Base `
-    models/qwen3-tts-tokenizer-f16.gguf
+    -i models/Qwen3-TTS-12Hz-0.6B-Base `
+    -o models/qwen3-tts-tokenizer-f16.gguf
 ```
 
 Expected model files:
